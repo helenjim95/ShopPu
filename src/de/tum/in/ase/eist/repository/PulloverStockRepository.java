@@ -16,7 +16,7 @@ public class PulloverStockRepository {
     // TODO: Implement retrieve logic here
 
     public List<PulloverStock> findAll() {
-        return new ArrayList<>(pulloverStocks);
+        return pulloverStocks;
     }
 
     public PulloverStock save(PulloverStock pulloverStock) {

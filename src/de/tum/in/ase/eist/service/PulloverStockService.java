@@ -27,12 +27,24 @@ public class PulloverStockService {
 
     // TODO: Implement buy logic here
     public PulloverStock buyPullover(PulloverStock pullover) {
-        return null;
+        pullover.setQuantity(pullover.getQuantity() - 1);
+        return pullover;
     }
 
     // TODO: Implement retrieve logic using PulloverStockRepository
     public List<PulloverStock> getAllPullovers(boolean onlyAvailable) {
-        return new ArrayList<>();
+        if (onlyAvailable) {
+            List<PulloverStock> pulloverStockList = pulloverStockRepository.findAll();
+            List<PulloverStock> pulloverListFiltered = new ArrayList<>();
+            for (PulloverStock stock : pulloverStockList) {
+                if (stock.getQuantity() > 0) {
+                    pulloverListFiltered.add(stock);
+                }
+            }
+            return pulloverListFiltered;
+        } else {
+            return pulloverStockRepository.findAll();
+        }
     }
 
     public Optional<PulloverStock> getById(Long pulloverId) {

@@ -26,11 +26,38 @@ public class PulloverStockResource {
     }
 
     // TODO: Implement createPulloverStock
+    @PostMapping("pullover")
+    public ResponseEntity<PulloverStock> createPulloverStock(@RequestBody PulloverStock stock) {
+        if (stock.getId() != null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(pulloverStockService.save(stock));
+    }
     
 
     // TODO: Implement buyPullover
-    
+    @PutMapping("pullover/{stockId}")
+    public ResponseEntity<PulloverStock> buyPullover(@RequestBody PulloverStock stock, @PathVariable("stockId") Long id) {
+        if (!stock.getId().equals(id)) {
+            return ResponseEntity.notFound().build();
+        } else if (stock.getQuantity() == 0) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(pulloverStockService.buyPullover(stock));
+    }
 
     // TODO: Implement getAllPulloverStocks
+    @GetMapping("pullover")
+    public ResponseEntity<List<PulloverStock>> getAllPulloverStocks(@RequestParam(defaultValue = "false", required = false) boolean onlyAvailable) {
+        if (!onlyAvailable) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(pulloverStockService.getAllPullovers(onlyAvailable));
+    }
+
+
+
+
+
     
 }
